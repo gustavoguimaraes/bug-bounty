@@ -1,8 +1,7 @@
-var ConvertLib = artifacts.require("./ConvertLib.sol");
-var MetaCoin = artifacts.require("./MetaCoin.sol");
+var LockYourEther = artifacts.require("./LockYourEther.sol");
+var LockYourEtherBounty = artifacts.require("./LockYourEtherBounty.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(ConvertLib);
-  deployer.link(ConvertLib, MetaCoin);
-  deployer.deploy(MetaCoin);
+  deployer.deploy(LockYourEther);
+  deployer.deploy(LockYourEtherBounty);
 };

@@ -1,8 +1,7 @@
 pragma solidity ^0.4.11;
 
-import './zeppelin/SafeMath.sol';
-
-import { Target } from "./zeppelin/Bounty.sol";
+import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+import { Target } from "zeppelin-solidity/contracts/Bounty.sol";
 
 contract LockYourEther is Target {
   uint256 public totalLockedEtherInContract;

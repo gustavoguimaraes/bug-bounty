@@ -159,10 +159,27 @@
       ],
       "name": "TargetCreated",
       "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "researcher",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "check",
+          "type": "bool"
+        }
+      ],
+      "name": "Logvalue",
+      "type": "event"
     }
   ],
   "unlinked_binary": "0x",
   "networks": {},
   "schema_version": "0.0.5",
-  "updated_at": 1499127893023
+  "updated_at": 1499368382209
 }

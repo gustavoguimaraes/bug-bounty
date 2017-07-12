@@ -4,8 +4,8 @@ import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import { Target } from "zeppelin-solidity/contracts/Bounty.sol";
 
 contract LockYourEther is Target {
-  uint256 public totalLockedEtherInContract;
-  address[] public lockedEtherAddressesList;
+  uint256 public totalLockedWei;
+  address[] public lockedAddresses;
 
   struct User {
     uint256 releaseDate;
@@ -15,20 +15,20 @@ contract LockYourEther is Target {
   mapping (address => User) public balances;
 
   // params _releaseDate as timestamp
-  function lockEtherUntil (uint256 _releaseDate) payable {
+  function lockFundsUntil (uint256 _releaseDate) payable {
     require(_releaseDate > now);
 
-    totalLockedEtherInContract = SafeMath.add(totalLockedEtherInContract, msg.value);
+    totalLockedWei = SafeMath.add(totalLockedWei, msg.value);
     balances[msg.sender].value = msg.value;
     balances[msg.sender].releaseDate = _releaseDate;
-    lockedEtherAddressesList.push(msg.sender);
+    lockedAddresses.push(msg.sender);
   }
 
   function withdraw () {
     require(now > balances[msg.sender].releaseDate && balances[msg.sender].value > 0);
 
     uint256 payout = balances[msg.sender].value;
-    uint256 totalLockedEtherInContract = SafeMath.sub(totalLockedEtherInContract, payout);
+    uint256 totalLockedWei = SafeMath.sub(totalLockedWei, payout);
 
     balances[msg.sender].value = 0;
     balances[msg.sender].releaseDate = 0;
@@ -36,14 +36,14 @@ contract LockYourEther is Target {
   }
 
   function checkInvariant() returns(bool) {
-    uint256 totalAmountOfLockedEtherInBalances;
+    uint256 totalAmountLockedInBalances;
 
-    for (uint256 i = 0; i < lockedEtherAddressesList.length; i++) {
-      address balanceAddress = lockedEtherAddressesList[i];
+    for (uint256 i = 0; i < lockedAddresses.length; i++) {
+      address balanceAddress = lockedAddresses[i];
 
-      totalAmountOfLockedEtherInBalances = SafeMath.add(balances[balanceAddress].value, totalAmountOfLockedEtherInBalances);
+      totalAmountLockedInBalances = SafeMath.add(balances[balanceAddress].value, totalAmountLockedInBalances);
     }
 
-    return totalLockedEtherInContract == totalAmountOfLockedEtherInBalances;
+    return totalLockedWei == totalAmountLockedInBalances;
   }
 }
